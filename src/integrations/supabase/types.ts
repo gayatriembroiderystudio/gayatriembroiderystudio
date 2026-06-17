@@ -14,7 +14,117 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      bookings: {
+        Row: {
+          additional_notes: string | null
+          address: string | null
+          created_at: string
+          design_requirements: string | null
+          email: string | null
+          id: string
+          mobile: string
+          name: string
+          preferred_date: string | null
+          preferred_time: string | null
+          reference_image_url: string | null
+          service_type: string
+          status: string
+        }
+        Insert: {
+          additional_notes?: string | null
+          address?: string | null
+          created_at?: string
+          design_requirements?: string | null
+          email?: string | null
+          id?: string
+          mobile: string
+          name: string
+          preferred_date?: string | null
+          preferred_time?: string | null
+          reference_image_url?: string | null
+          service_type: string
+          status?: string
+        }
+        Update: {
+          additional_notes?: string | null
+          address?: string | null
+          created_at?: string
+          design_requirements?: string | null
+          email?: string | null
+          id?: string
+          mobile?: string
+          name?: string
+          preferred_date?: string | null
+          preferred_time?: string | null
+          reference_image_url?: string | null
+          service_type?: string
+          status?: string
+        }
+        Relationships: []
+      }
+      contact_inquiries: {
+        Row: {
+          created_at: string
+          email: string | null
+          id: string
+          message: string
+          mobile: string | null
+          name: string
+          status: string
+          subject: string | null
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          message: string
+          mobile?: string | null
+          name: string
+          status?: string
+          subject?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          message?: string
+          mobile?: string | null
+          name?: string
+          status?: string
+          subject?: string | null
+        }
+        Relationships: []
+      }
+      feedback: {
+        Row: {
+          approved: boolean
+          created_at: string
+          id: string
+          image_url: string | null
+          name: string
+          rating: number
+          review: string
+        }
+        Insert: {
+          approved?: boolean
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          name: string
+          rating: number
+          review: string
+        }
+        Update: {
+          approved?: boolean
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          name?: string
+          rating?: number
+          review?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
