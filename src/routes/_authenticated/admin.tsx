@@ -1,33 +1,70 @@
-import { createFileRoute, Outlet, Link, useNavigate, useRouterState, redirect } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  Outlet,
+  Link,
+  useNavigate,
+  useRouterState,
+  redirect,
+} from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import {
-  LayoutDashboard, CalendarCheck, MessageSquare, Star, Image as ImageIcon,
-  FileText, LogOut, Menu, X,
+  LayoutDashboard,
+  CalendarCheck,
+  MessageSquare,
+  Star,
+  Image as ImageIcon,
+  FileText,
+  BriefcaseBusiness,
+  Settings,
+  UserCircle2,
+  LogOut,
+  Menu,
+  X,
 } from "lucide-react";
 import { toast } from "sonner";
+import logo from "@/assets/logo.png";
 
 export const Route = createFileRoute("/_authenticated/admin")({
+  head: () => ({
+    title: "Admin Dashboard | Gayatri Embroidery Studio",
+    links: [
+      {
+        rel: "icon",
+        href: "/favicon.ico",
+      },
+    ],
+  }),
+
   beforeLoad: async ({ context }: any) => {
     const userId = context?.user?.id;
-    if (!userId) throw redirect({ to: "/auth" });
-    const { data } = await supabase.rpc("has_role", { _user_id: userId, _role: "admin" });
-    if (!data) {
-      // Try claim if no admin exists
-      const { data: claimed } = await supabase.rpc("claim_first_admin");
-      if (!claimed) throw redirect({ to: "/" });
+
+    if (!userId) {
+      throw redirect({ to: "/auth" });
     }
   },
+
   component: AdminLayout,
 });
 
 const NAV: Array<{ to: string; label: string; icon: any; exact?: boolean }> = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
+
   { to: "/admin/bookings", label: "Bookings", icon: CalendarCheck },
+
   { to: "/admin/inquiries", label: "Inquiries", icon: MessageSquare },
+
   { to: "/admin/reviews", label: "Reviews", icon: Star },
+
   { to: "/admin/gallery", label: "Gallery", icon: ImageIcon },
+
   { to: "/admin/blog", label: "Blog", icon: FileText },
+
+  { to: "/admin/services", label: "Services", icon: BriefcaseBusiness },
+
+  { to: "/admin/settings", label: "Website Settings", icon: Settings },
+
+  { to: "/admin/profile", label: "Profile", icon: UserCircle2 },
 ];
 
 function AdminLayout() {
@@ -55,7 +92,21 @@ function AdminLayout() {
         ].join(" ")}
       >
         <div className="flex items-center justify-between px-5 py-5">
-          <Link to="/" className="font-display text-xl text-gold-foil">Royal Boutique</Link>
+          <Link to="/" className="flex items-center gap-3">
+            <img
+              src={logo}
+              alt="Gayatri Embroidery Studio"
+              className="h-14 w-14 rounded-md border border-gold/60 bg-white p-1 object-contain"
+            />
+            <div>
+              <h1 className="font-display text-lg font-bold text-gold-foil leading-none">
+                Gayatri
+              </h1>
+              <p className="text-[11px] tracking-[0.2em] uppercase text-cream/80">
+                Embroidery Studio
+              </p>
+            </div>
+          </Link>
           <button onClick={() => setOpen(false)} className="lg:hidden">
             <X className="h-5 w-5" />
           </button>
@@ -97,7 +148,9 @@ function AdminLayout() {
             <Menu className="h-5 w-5" />
           </button>
           <h2 className="font-display text-lg text-maroon-deep">Admin Dashboard</h2>
-          <Link to="/" className="text-xs text-muted-foreground hover:text-maroon">View site →</Link>
+          <Link to="/" className="text-xs text-muted-foreground hover:text-maroon">
+            View site →
+          </Link>
         </header>
         <main className="p-5 lg:p-8">
           <Outlet />

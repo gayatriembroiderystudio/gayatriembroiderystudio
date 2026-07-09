@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Menu, X, Phone } from "lucide-react";
-import { SITE } from "@/lib/site";
+import { useSettings } from "@/hooks/useSettings";
 
 const NAV = [
   { to: "/", label: "Home" },
@@ -17,6 +17,12 @@ const NAV = [
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { data: settings, isLoading } = useSettings();
+  console.log("Logo URL:", settings?.logo_url);
+
+  const logo = settings?.logo_url ?? "";
+
+  const businessName = settings?.business_name || "Gayatri Embroidery Studio";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16);
@@ -24,6 +30,10 @@ export function SiteHeader() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  if (isLoading) {
+    return <header className="sticky top-0 z-50 h-20 border-b bg-white" />;
+  }
 
   return (
     <header
@@ -34,22 +44,14 @@ export function SiteHeader() {
           : "bg-transparent",
       ].join(" ")}
     >
-      <div className="mx-auto grid max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-4 px-5 py-3 md:py-4">
-        <Link to="/" className="flex min-w-0 items-center gap-3" onClick={() => setOpen(false)}>
-          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-gold/60 bg-gradient-to-br from-maroon to-maroon-deep font-display text-base font-bold text-gold-foil">
-            R
-          </span>
-          <span className="flex min-w-0 flex-col leading-tight">
-            <span className="truncate font-display text-lg font-semibold text-maroon-deep">
-              Royal Boutique
-            </span>
-            <span className="hidden truncate text-[10px] uppercase tracking-[0.25em] text-gold sm:block">
-              Embroidery · Maggam
-            </span>
-          </span>
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-3 py-3">
+        <Link to="/" className="flex items-center gap-3 -ml-2" onClick={() => setOpen(false)}>
+          {logo && (
+            <img src={logo} alt={businessName} className="h-16 w-auto object-contain shrink-0" />
+          )}
         </Link>
 
-        <nav className="hidden items-center justify-center gap-1 lg:flex">
+        <nav className="hidden flex-1 items-center justify-center gap-8 lg:flex">
           {NAV.map((item) => (
             <Link
               key={item.to}
@@ -63,17 +65,10 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
-          <a
-            href={`tel:${SITE.phone.replace(/\s/g, "")}`}
-            className="hidden items-center gap-2 rounded-full border border-gold/50 px-4 py-2 text-sm font-medium text-maroon-deep transition-all hover:bg-gold/10 md:inline-flex"
-          >
-            <Phone className="h-3.5 w-3.5" />
-            {SITE.phone}
-          </a>
+        <div className="ml-10 flex items-center gap-2">
           <Link
             to="/booking"
-            className="hidden rounded-full bg-gradient-to-r from-maroon to-maroon-deep px-5 py-2.5 text-sm font-medium text-cream shadow-soft transition-transform hover:-translate-y-0.5 md:inline-block"
+            className="hidden rounded-full bg-gradient-to-r from-maroon to-maroon-deep px-7 py-3 text-sm font-semibold text-cream shadow-soft transition-transform hover:-translate-y-0.5 md:inline-flex"
           >
             Book Consultation
           </Link>

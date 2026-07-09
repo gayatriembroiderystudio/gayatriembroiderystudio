@@ -19,7 +19,12 @@ function BookingsAdmin() {
         .from("bookings")
         .select("*")
         .order("created_at", { ascending: false });
+
+      console.log("Bookings:", data);
+      console.log("Query Error:", error);
+
       if (error) throw error;
+
       return data;
     },
   });
@@ -60,7 +65,13 @@ function BookingsAdmin() {
               </tr>
             </thead>
             <tbody>
-              {isLoading && <tr><td colSpan={7} className="p-6 text-center text-muted-foreground">Loading…</td></tr>}
+              {isLoading && (
+                <tr>
+                  <td colSpan={7} className="p-6 text-center text-muted-foreground">
+                    Loading…
+                  </td>
+                </tr>
+              )}
               {data?.map((b) => (
                 <tr key={b.id} className="border-t border-border align-top">
                   <td className="px-4 py-3">
@@ -74,7 +85,9 @@ function BookingsAdmin() {
                   <td>{b.service_type}</td>
                   <td>
                     {b.preferred_date && <div>{b.preferred_date}</div>}
-                    {b.preferred_time && <div className="text-xs text-muted-foreground">{b.preferred_time}</div>}
+                    {b.preferred_time && (
+                      <div className="text-xs text-muted-foreground">{b.preferred_time}</div>
+                    )}
                   </td>
                   <td>
                     <select
@@ -82,19 +95,32 @@ function BookingsAdmin() {
                       onChange={(e) => setStatus(b.id, e.target.value)}
                       className="rounded-md border border-border bg-background px-2 py-1 text-xs"
                     >
-                      {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
+                      {STATUSES.map((s) => (
+                        <option key={s} value={s}>
+                          {s}
+                        </option>
+                      ))}
                     </select>
                   </td>
-                  <td className="text-xs text-muted-foreground">{new Date(b.created_at).toLocaleString()}</td>
+                  <td className="text-xs text-muted-foreground">
+                    {new Date(b.created_at).toLocaleString()}
+                  </td>
                   <td>
-                    <button onClick={() => remove(b.id)} className="rounded p-2 text-destructive hover:bg-destructive/10">
+                    <button
+                      onClick={() => remove(b.id)}
+                      className="rounded p-2 text-destructive hover:bg-destructive/10"
+                    >
                       <Trash2 className="h-4 w-4" />
                     </button>
                   </td>
                 </tr>
               ))}
               {!isLoading && (data?.length ?? 0) === 0 && (
-                <tr><td colSpan={7} className="p-8 text-center text-muted-foreground">No bookings yet.</td></tr>
+                <tr>
+                  <td colSpan={7} className="p-8 text-center text-muted-foreground">
+                    No bookings yet.
+                  </td>
+                </tr>
               )}
             </tbody>
           </table>
