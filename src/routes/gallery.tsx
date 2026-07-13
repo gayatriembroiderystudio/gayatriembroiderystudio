@@ -10,8 +10,9 @@ type Item = {
   title: string;
   image_url: string;
   category: string;
-  published: boolean;
-  sort_order: number;
+  description: string | null;
+  is_active: boolean;
+  display_order: number;
   created_at: string;
 };
 
@@ -32,7 +33,16 @@ export const Route = createFileRoute("/gallery")({
   component: Gallery,
 });
 
-const CATEGORIES = ["All", "Bridal", "Maggam", "Zardosi", "Machine"] as const;
+const CATEGORIES = [
+  "All",
+  "Bridal",
+  "Maggam",
+  "Zardosi",
+  "Machine",
+  "Lehenga",
+  "Stone Work",
+  "Aari Work",
+] as const;
 
 function Gallery() {
   const [filter, setFilter] = useState<(typeof CATEGORIES)[number]>("All");
@@ -43,8 +53,8 @@ function Gallery() {
       const { data, error } = await supabase
         .from("gallery_items")
         .select("*")
-        .eq("published", true)
-        .order("sort_order")
+        .eq("is_active", true)
+        .order("display_order", { ascending: true })
         .order("created_at", { ascending: false });
 
       if (error) throw error;
@@ -52,7 +62,10 @@ function Gallery() {
       return data;
     },
   });
-  const filtered = filter === "All" ? items : items.filter((i) => (i.category ?? "") === filter);
+  const filtered =
+    filter === "All"
+      ? items
+      : items.filter((i) => (i.category ?? "").trim().toLowerCase() === filter.toLowerCase());
   if (isLoading) {
     return <div className="py-20 text-center text-muted-foreground">Loading gallery...</div>;
   }

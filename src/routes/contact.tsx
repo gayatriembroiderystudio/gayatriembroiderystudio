@@ -47,28 +47,43 @@ function Contact() {
       return;
     }
     setLoading(true);
-    const { error } = await supabase.from("contact_messages").insert({
-      name: parsed.data.name,
-      email: parsed.data.email || null,
-      mobile: parsed.data.mobile || null,
-      subject: parsed.data.subject || null,
-      message: parsed.data.message,
-    });
+
+    const { data, error } = await supabase
+      .from("contact_messages")
+      .insert({
+        name: parsed.data.name,
+        email: parsed.data.email || null,
+        mobile: parsed.data.mobile || null,
+        subject: parsed.data.subject || null,
+        message: parsed.data.message,
+      })
+      .select();
+
     setLoading(false);
+
+    console.log("DATA:", data);
+    console.log("ERROR:", error);
+
     if (error) {
-      toast.error("Couldn't send. Please try again.");
+      console.error("Full Error:", JSON.stringify(error, null, 2));
+      console.log("Code:", error.code);
+      console.log("Message:", error.message);
+      console.log("Details:", error.details);
+      console.log("Hint:", error.hint);
+
+      toast.error(error.message);
       return;
     }
+
     toast.success("Message sent! We'll be in touch shortly.");
     (e.target as HTMLFormElement).reset();
   }
-
   return (
     <div>
       <PageHeader
         eyebrow="Get in touch"
         title="Visit our atelier"
-        subtitle="Step into our Jeypore studio or reach out — we'd love to hear from you."
+        subtitle="Step into our studio or reach out — we'd love to hear from you."
       />
 
       <section className="mx-auto max-w-7xl px-6 py-16">

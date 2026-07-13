@@ -33,6 +33,7 @@ import { Route as AuthenticatedAdminServiceAddRouteImport } from './routes/_auth
 import { Route as AuthenticatedAdminReviewsRouteImport } from './routes/_authenticated/admin.reviews'
 import { Route as AuthenticatedAdminProfileRouteImport } from './routes/_authenticated/admin.profile'
 import { Route as AuthenticatedAdminInquiriesRouteImport } from './routes/_authenticated/admin.inquiries'
+import { Route as AuthenticatedAdminHomepageShowcaseRouteImport } from './routes/_authenticated/admin.homepage-showcase'
 import { Route as AuthenticatedAdminGalleryRouteImport } from './routes/_authenticated/admin.gallery'
 import { Route as AuthenticatedAdminBookingsRouteImport } from './routes/_authenticated/admin.bookings'
 import { Route as AuthenticatedAdminBlogRouteImport } from './routes/_authenticated/admin.blog'
@@ -163,6 +164,12 @@ const AuthenticatedAdminInquiriesRoute =
     path: '/inquiries',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminHomepageShowcaseRoute =
+  AuthenticatedAdminHomepageShowcaseRouteImport.update({
+    id: '/homepage-showcase',
+    path: '/homepage-showcase',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminGalleryRoute =
   AuthenticatedAdminGalleryRouteImport.update({
     id: '/gallery',
@@ -207,6 +214,7 @@ export interface FileRoutesByFullPath {
   '/admin/blog': typeof AuthenticatedAdminBlogRoute
   '/admin/bookings': typeof AuthenticatedAdminBookingsRoute
   '/admin/gallery': typeof AuthenticatedAdminGalleryRoute
+  '/admin/homepage-showcase': typeof AuthenticatedAdminHomepageShowcaseRoute
   '/admin/inquiries': typeof AuthenticatedAdminInquiriesRoute
   '/admin/profile': typeof AuthenticatedAdminProfileRoute
   '/admin/reviews': typeof AuthenticatedAdminReviewsRoute
@@ -235,6 +243,7 @@ export interface FileRoutesByTo {
   '/admin/blog': typeof AuthenticatedAdminBlogRoute
   '/admin/bookings': typeof AuthenticatedAdminBookingsRoute
   '/admin/gallery': typeof AuthenticatedAdminGalleryRoute
+  '/admin/homepage-showcase': typeof AuthenticatedAdminHomepageShowcaseRoute
   '/admin/inquiries': typeof AuthenticatedAdminInquiriesRoute
   '/admin/profile': typeof AuthenticatedAdminProfileRoute
   '/admin/reviews': typeof AuthenticatedAdminReviewsRoute
@@ -266,6 +275,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/blog': typeof AuthenticatedAdminBlogRoute
   '/_authenticated/admin/bookings': typeof AuthenticatedAdminBookingsRoute
   '/_authenticated/admin/gallery': typeof AuthenticatedAdminGalleryRoute
+  '/_authenticated/admin/homepage-showcase': typeof AuthenticatedAdminHomepageShowcaseRoute
   '/_authenticated/admin/inquiries': typeof AuthenticatedAdminInquiriesRoute
   '/_authenticated/admin/profile': typeof AuthenticatedAdminProfileRoute
   '/_authenticated/admin/reviews': typeof AuthenticatedAdminReviewsRoute
@@ -297,6 +307,7 @@ export interface FileRouteTypes {
     | '/admin/blog'
     | '/admin/bookings'
     | '/admin/gallery'
+    | '/admin/homepage-showcase'
     | '/admin/inquiries'
     | '/admin/profile'
     | '/admin/reviews'
@@ -325,6 +336,7 @@ export interface FileRouteTypes {
     | '/admin/blog'
     | '/admin/bookings'
     | '/admin/gallery'
+    | '/admin/homepage-showcase'
     | '/admin/inquiries'
     | '/admin/profile'
     | '/admin/reviews'
@@ -355,6 +367,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/blog'
     | '/_authenticated/admin/bookings'
     | '/_authenticated/admin/gallery'
+    | '/_authenticated/admin/homepage-showcase'
     | '/_authenticated/admin/inquiries'
     | '/_authenticated/admin/profile'
     | '/_authenticated/admin/reviews'
@@ -554,6 +567,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminInquiriesRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/homepage-showcase': {
+      id: '/_authenticated/admin/homepage-showcase'
+      path: '/homepage-showcase'
+      fullPath: '/admin/homepage-showcase'
+      preLoaderRoute: typeof AuthenticatedAdminHomepageShowcaseRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/gallery': {
       id: '/_authenticated/admin/gallery'
       path: '/gallery'
@@ -589,6 +609,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminBlogRoute: typeof AuthenticatedAdminBlogRoute
   AuthenticatedAdminBookingsRoute: typeof AuthenticatedAdminBookingsRoute
   AuthenticatedAdminGalleryRoute: typeof AuthenticatedAdminGalleryRoute
+  AuthenticatedAdminHomepageShowcaseRoute: typeof AuthenticatedAdminHomepageShowcaseRoute
   AuthenticatedAdminInquiriesRoute: typeof AuthenticatedAdminInquiriesRoute
   AuthenticatedAdminProfileRoute: typeof AuthenticatedAdminProfileRoute
   AuthenticatedAdminReviewsRoute: typeof AuthenticatedAdminReviewsRoute
@@ -603,6 +624,8 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminBlogRoute: AuthenticatedAdminBlogRoute,
   AuthenticatedAdminBookingsRoute: AuthenticatedAdminBookingsRoute,
   AuthenticatedAdminGalleryRoute: AuthenticatedAdminGalleryRoute,
+  AuthenticatedAdminHomepageShowcaseRoute:
+    AuthenticatedAdminHomepageShowcaseRoute,
   AuthenticatedAdminInquiriesRoute: AuthenticatedAdminInquiriesRoute,
   AuthenticatedAdminProfileRoute: AuthenticatedAdminProfileRoute,
   AuthenticatedAdminReviewsRoute: AuthenticatedAdminReviewsRoute,

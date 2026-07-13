@@ -15,8 +15,8 @@ type Item = {
   category: string;
   image_url: string;
   description: string | null;
-  sort_order: number;
-  published: boolean;
+  display_order: number;
+  is_active: boolean;
 };
 
 const EMPTY: Item = {
@@ -24,8 +24,8 @@ const EMPTY: Item = {
   category: "general",
   image_url: "",
   description: "",
-  sort_order: 0,
-  published: true,
+  display_order: 0,
+  is_active: true,
 };
 
 function GalleryAdmin() {
@@ -38,7 +38,8 @@ function GalleryAdmin() {
       const { data, error } = await supabase
         .from("gallery_items")
         .select("*")
-        .order("sort_order")
+        .eq("is_active", true)
+        .order("display_order")
         .order("created_at", { ascending: false });
 
       console.log("Gallery data:", data);
@@ -112,9 +113,9 @@ function GalleryAdmin() {
                   <p className="text-xs uppercase tracking-wider text-gold">{g.category}</p>
                 </div>
                 <span
-                  className={`rounded-full px-2 py-0.5 text-[10px] ${g.published ? "bg-emerald-100 text-emerald-700" : "bg-muted text-muted-foreground"}`}
+                  className={`rounded-full px-2 py-0.5 text-[10px] ${g.is_active ? "bg-emerald-100 text-emerald-700" : "bg-muted text-muted-foreground"}`}
                 >
-                  {g.published ? "Live" : "Draft"}
+                  {g.is_active ? "Live" : "Draft"}
                 </span>
               </div>
               <div className="mt-3 flex justify-end gap-1">
@@ -211,8 +212,8 @@ function ItemForm({
         <Field label="Sort Order">
           <input
             type="number"
-            value={v.sort_order}
-            onChange={(e) => setV({ ...v, sort_order: Number(e.target.value) })}
+            value={v.display_order}
+            onChange={(e) => setV({ ...v, display_order: Number(e.target.value) })}
             className={inputCls}
           />
         </Field>
@@ -220,8 +221,8 @@ function ItemForm({
           <label className="flex items-center gap-2 text-sm">
             <input
               type="checkbox"
-              checked={v.published}
-              onChange={(e) => setV({ ...v, published: e.target.checked })}
+              checked={v.is_active}
+              onChange={(e) => setV({ ...v, is_active: e.target.checked })}
             />
             Published
           </label>

@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import logo from "@/assets/logo.png";
+import { Monitor } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
@@ -57,6 +58,8 @@ const NAV: Array<{ to: string; label: string; icon: any; exact?: boolean }> = [
   { to: "/admin/reviews", label: "Reviews", icon: Star },
 
   { to: "/admin/gallery", label: "Gallery", icon: ImageIcon },
+
+  { to: "/admin/homepage-showcase", label: "Homepage Showcase", icon: Monitor },
 
   { to: "/admin/blog", label: "Blog", icon: FileText },
 

@@ -42,16 +42,17 @@ function Home() {
       return data;
     },
   });
-  const { data: gallery = [] } = useQuery({
-    queryKey: ["home-gallery"],
+  const { data: showcaseItems = [] } = useQuery({
+    queryKey: ["homepage-showcase"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("gallery_items")
+        .from("homepage_showcase")
         .select("*")
-        .eq("published", true)
-        .limit(3);
+        .eq("is_active", true)
+        .order("display_order", { ascending: true });
 
       if (error) throw error;
+
       return data;
     },
   });
@@ -124,7 +125,7 @@ function Home() {
             style={{ animationDelay: "360ms" }}
           >
             {[
-              ["10+", "Years of craft"],
+              ["2+", "Years of craft"],
               ["500+", "Bridal pieces"],
               ["4.9★", "Client love"],
             ].map(([num, label]) => (
@@ -145,24 +146,32 @@ function Home() {
           <Header
             eyebrow="Featured Atelier"
             title="A glimpse of couture"
-            subtitle="Hand-finished bridal pieces and signature embroideries crafted in our Jeypore studio."
+            subtitle="Hand-finished bridal pieces and signature embroideries crafted in our studio."
           />
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {gallery.map((g) => (
-              <figure key={g.id} className="group relative overflow-hidden rounded-xl shadow-soft">
+            {showcaseItems.map((item) => (
+              <figure
+                key={item.id}
+                className="group relative overflow-hidden rounded-xl shadow-soft"
+              >
                 <img
-                  src={g.image_url}
-                  alt={g.title}
+                  src={item.image_url}
+                  alt={item.title}
                   loading="lazy"
                   className="aspect-[4/5] w-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
 
-                <div className="absolute inset-0 bg-gradient-to-t from-maroon-deep/85 via-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+                <figcaption className="absolute inset-x-0 bottom-0 bg-black/60 p-4 text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <h3 className="font-semibold">{item.title}</h3>
 
-                <figcaption className="absolute inset-x-0 bottom-0 translate-y-4 p-5 text-cream opacity-0 transition-all group-hover:translate-y-0 group-hover:opacity-100">
-                  <p className="text-[10px] uppercase tracking-[0.3em] text-gold">{g.category}</p>
+                  {item.subtitle && <p className="mt-1 text-sm">{item.subtitle}</p>}
 
-                  <p className="font-display text-xl">{g.title}</p>
+                  <Link
+                    to={item.button_link}
+                    className="mt-4 inline-block rounded-lg bg-gold px-4 py-2 text-maroon-deep"
+                  >
+                    {item.button_text}
+                  </Link>
                 </figcaption>
               </figure>
             ))}

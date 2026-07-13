@@ -43,8 +43,8 @@ CREATE POLICY "Authenticated users can read all feedback" ON public.feedback FOR
 CREATE POLICY "Authenticated users can update feedback" ON public.feedback FOR UPDATE TO authenticated USING (true);
 CREATE POLICY "Authenticated users can delete feedback" ON public.feedback FOR DELETE TO authenticated USING (true);
 
--- Contact inquiries
-CREATE TABLE public.contact_inquiries (
+-- contact_messages
+CREATE TABLE public.contact_messages (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name TEXT NOT NULL,
   email TEXT,
@@ -54,10 +54,10 @@ CREATE TABLE public.contact_inquiries (
   status TEXT NOT NULL DEFAULT 'new',
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
-GRANT INSERT ON public.contact_inquiries TO anon;
-GRANT SELECT, INSERT, UPDATE, DELETE ON public.contact_inquiries TO authenticated;
-GRANT ALL ON public.contact_inquiries TO service_role;
-ALTER TABLE public.contact_inquiries ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Anyone can submit an inquiry" ON public.contact_inquiries FOR INSERT TO anon, authenticated WITH CHECK (true);
-CREATE POLICY "Authenticated users can view inquiries" ON public.contact_inquiries FOR SELECT TO authenticated USING (true);
-CREATE POLICY "Authenticated users can update inquiries" ON public.contact_inquiries FOR UPDATE TO authenticated USING (true);
+GRANT INSERT ON public.contact_messages TO anon;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.contact_messages TO authenticated;
+GRANT ALL ON public.contact_messages TO service_role;
+ALTER TABLE public.contact_messages ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Anyone can submit an inquiry" ON public.ccontact_messages FOR INSERT TO anon, authenticated WITH CHECK (true);
+CREATE POLICY "Authenticated users can view inquiries" ON public.contact_messages FOR SELECT TO authenticated USING (true);
+CREATE POLICY "Authenticated users can update inquiries" ON public.contact_messages FOR UPDATE TO authenticated USING (true);
