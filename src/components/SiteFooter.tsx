@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
-import { Instagram, Facebook, Youtube, Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone, MapPin } from "lucide-react";
 import { useSettings } from "@/hooks/useSettings";
+import { FaInstagram, FaFacebookF, FaYoutube } from "react-icons/fa";
 
 export function SiteFooter() {
   const { data: settings, isLoading } = useSettings();
@@ -37,17 +38,17 @@ export function SiteFooter() {
             {[
               {
                 href: settings?.instagram,
-                icon: Instagram,
+                icon: FaInstagram,
                 label: "Instagram",
               },
               {
                 href: settings?.facebook,
-                icon: Facebook,
+                icon: FaFacebookF,
                 label: "Facebook",
               },
               {
                 href: settings?.youtube,
-                icon: Youtube,
+                icon: FaYoutube,
                 label: "YouTube",
               },
             ]

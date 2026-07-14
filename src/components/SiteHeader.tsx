@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Menu, X, Phone } from "lucide-react";
 import { useSettings } from "@/hooks/useSettings";
 
+
 const NAV = [
   { to: "/", label: "Home" },
   { to: "/about", label: "About" },
